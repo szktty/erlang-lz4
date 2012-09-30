@@ -27,7 +27,7 @@ nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
   ErlNifBinary src_bin, res_bin;
   bool high = false;
   long block_size = 0;
-  int arity;
+  int arity, real_size;
   size_t res_size;
 
   if (!enif_inspect_binary(env, argv[0], &src_bin) ||
@@ -54,10 +54,14 @@ nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
   enif_alloc_binary(res_size, &res_bin);
 
   if (block_size <= 0) {
-    if ((high && LZ4_compressHC((char *)src_bin.data,
-            (char *)res_bin.data, src_bin.size) >= 0) ||
-          LZ4_compress((char *)src_bin.data,
-            (char *)res_bin.data, src_bin.size) >= 0)
+    if (high)
+      real_size = LZ4_compressHC((char *)src_bin.data,
+          (char *)res_bin.data, src_bin.size);
+    else
+      real_size = LZ4_compress((char *)src_bin.data,
+          (char *)res_bin.data, src_bin.size);
+
+    if (real_size >= 0)
       goto ok;
     else
       goto error;
@@ -65,6 +69,7 @@ nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     goto error;
 
 ok:
+  enif_realloc_binary(&res_bin, real_size);
   ret_term = enif_make_tuple2(env, atom_ok,
       enif_make_binary(env, &res_bin));
   enif_release_binary(&res_bin);
