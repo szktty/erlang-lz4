@@ -32,7 +32,7 @@ compress(_Binary, _Options) ->
     ?nif_stub.
 
 -spec uncompress(binary(), integer()) -> {ok, binary()} | {error, term()}.
-uncompress(_Binary, _OnigSize) ->
+uncompress(_Binary, _OrigSize) ->
     ?nif_stub.
 
 -spec pack(binary()) -> {ok, pack()} | {error, term()}.
