@@ -1,20 +1,17 @@
 all:
-	./rebar update-deps
-	./rebar get-deps
 	./rebar compile
-	./rebar xref skip_deps=true
-	./rebar eunit skip_deps=true
+	./rebar xref
+	./rebar eunit
 
 compile:
-	./rebar compile skip_deps=true
+	./rebar compile
 
 xref: compile
-	./rebar xref skip_deps=true
+	./rebar xref
 
 clean:
-	./rebar clean skip_deps=true
-	cd doc; make clean
+	./rebar clean
 
 test: xref
-	./rebar skip_deps=true eunit
+	./rebar eunit
 
