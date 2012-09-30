@@ -1,4 +1,4 @@
-all: doc
+all:
 	./rebar update-deps
 	./rebar get-deps
 	./rebar compile
