@@ -1,14 +1,9 @@
-.PHONY: test doc
-
 all: doc
 	./rebar update-deps
 	./rebar get-deps
 	./rebar compile
 	./rebar xref skip_deps=true
 	./rebar eunit skip_deps=true
-
-doc:
-	cd doc; make html
 
 compile:
 	./rebar compile skip_deps=true
