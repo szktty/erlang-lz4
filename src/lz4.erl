@@ -6,7 +6,7 @@
 -on_load(init/0).
 
 -type option() :: high | {block, integer()}.
--type pack() :: {binary(), integer()}.
+-type pack() :: binary().
 
 -define(nif_stub, nif_stub_error(?LINE)).
 nif_stub_error(Line) ->
@@ -35,7 +35,7 @@ compress(_Binary, _Options) ->
 uncompress(_Binary, _OnigSize) ->
     ?nif_stub.
 
--spec pack(binary()) -> {ok, binary()} | {error, term()}.
+-spec pack(binary()) -> {ok, pack()} | {error, term()}.
 pack(Binary) ->
     pack(Binary, []).
 
@@ -43,12 +43,14 @@ pack(Binary) ->
 pack(Binary, Options) ->
     case compress(Binary, Options) of
         {ok, Compressed} ->
-            {ok, {Compressed, byte_size(Binary)}};
+            OrigSize = byte_size(Binary),
+            {ok, <<OrigSize:4/little-unsigned-integer-unit:8,
+                Compressed/binary>>};
         Error ->
             Error
     end.
 
 -spec unpack(pack()) -> {ok, binary()} | {error, term()}.
-unpack({Binary, OrigSize}) ->
+unpack(<<OrigSize:4/little-unsigned-integer-unit:8, Binary/binary>>) ->
     uncompress(Binary, OrigSize).
 
