@@ -1,17 +1,14 @@
--module(mymodule).
+-module(lz4).
 
--export([new/0,
-         myfunction/1]).
+-export([compress/1, compress/2, uncompress/2]).
 
 -on_load(init/0).
+
+-type option() :: high | {block, integer()}.
 
 -define(nif_stub, nif_stub_error(?LINE)).
 nif_stub_error(Line) ->
     erlang:nif_error({nif_not_loaded,module,?MODULE,line,Line}).
-
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
 
 init() ->
     PrivDir = case code:priv_dir(?MODULE) of
@@ -22,21 +19,17 @@ init() ->
                   Path ->
                       Path
               end,
-    erlang:load_nif(filename:join(PrivDir, ?MODULE), 0).
+    erlang:load_nif(filename:join(PrivDir, lz4_nif), 0).
 
-new() ->
+-spec compress(binary()) -> {ok, binary()} | {error, term()}.
+compress(Binary) ->
+    compress(Binary, []).
+
+-spec compress(binary(), [option()]) -> {ok, binary()} | {error, term()}.
+compress(_Binary, _Options) ->
     ?nif_stub.
 
-myfunction(_Ref) ->
+-spec uncompress(binary(), integer()) -> {ok, binary()} | {error, term()}.
+uncompress(_Binary, _OnigSize) ->
     ?nif_stub.
 
-%% ===================================================================
-%% EUnit tests
-%% ===================================================================
--ifdef(TEST).
-
-basic_test() ->
-    {ok, Ref} = new(),
-    ?assertEqual(ok, myfunction(Ref)).
-
--endif.

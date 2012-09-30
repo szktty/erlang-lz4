@@ -1,0 +1,12 @@
+{application, lz4,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {modules, [lz4]},
+  {env, []}
+ ]}.
