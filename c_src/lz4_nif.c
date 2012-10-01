@@ -17,6 +17,8 @@ static ErlNifFunc nif_funcs[] =
 static ERL_NIF_TERM atom_ok;
 static ERL_NIF_TERM atom_error;
 static ERL_NIF_TERM atom_high;
+static ERL_NIF_TERM atom_compress_failed;
+static ERL_NIF_TERM atom_uncompress_failed;
 
 static ERL_NIF_TERM
 nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
@@ -56,8 +58,7 @@ nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     return ret_term;
   } else {
     enif_release_binary(&res_bin);
-    /* TODO: verbose error */
-    return atom_error;
+    return enif_make_tuple2(env, atom_error, atom_compress_failed);
   }
 }
 
@@ -82,8 +83,7 @@ nif_uncompress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     return ret_term;
   } else {
     enif_release_binary(&res_bin);
-    /* TODO: verbose error */
-    return atom_error;
+    return enif_make_tuple2(env, atom_error, atom_uncompress_failed);
   }
 }
 
@@ -92,6 +92,8 @@ static int on_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
   atom_ok = enif_make_atom(env, "ok");
   atom_error = enif_make_atom(env, "error");
   atom_high = enif_make_atom(env, "high");
+  atom_compress_failed = enif_make_atom(env, "compress_failed");
+  atom_uncompress_failed = enif_make_atom(env, "uncompress_failed");
   return 0;
 }
 
