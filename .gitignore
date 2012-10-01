@@ -1,8 +1,13 @@
 .eunit
+ebin
 deps
 priv
 *.o
 *.beam
 *.plt
 *.swp
+*.html
+*.png
+edoc-info
+stylesheet.css
 
