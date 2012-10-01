@@ -1,11 +1,12 @@
 -module(lz4).
 
 -export([compress/1, compress/2, uncompress/2,
-    pack/1, pack/2, unpack/1]).
+    pack/1, pack/2, unpack/1,
+    test/0, test_mp/0]).
 
 -on_load(init/0).
 
--type option() :: high | {block, integer()}.
+-type option() :: high | {block, integer(), integer()}.
 -type pack() :: binary().
 
 -define(nif_stub, nif_stub_error(?LINE)).
@@ -53,4 +54,14 @@ pack(Binary, Options) ->
 -spec unpack(pack()) -> {ok, binary()} | {error, term()}.
 unpack(<<OrigSize:4/little-unsigned-integer-unit:8, Binary/binary>>) ->
     uncompress(Binary, OrigSize).
+
+test() ->
+    Raw = <<"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">>,
+    Raw1 = binary:copy(Raw, 40000),
+    lz4:pack(Raw1).
+
+test_mp() ->
+    Raw = <<"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.">>,
+    Raw1 = binary:copy(Raw, 40000),
+    lz4:pack(Raw1, [{block, 1024, 16}]).
 
