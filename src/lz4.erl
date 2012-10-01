@@ -5,7 +5,7 @@
 
 -on_load(init/0).
 
--type option() :: high | {block, integer()}.
+-type option() :: high.
 -type pack() :: binary().
 
 -define(nif_stub, nif_stub_error(?LINE)).
