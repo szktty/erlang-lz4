@@ -1,6 +1,8 @@
 erlang-lz4
 ==========
 
+[![Build Status](https://secure.travis-ci.org/szktty/erlang-lz4.png?branch=develop)](http://travis-ci.org/szktty/erlang-lz4)
+
 LZ4 bindings for Erlang
 
 
