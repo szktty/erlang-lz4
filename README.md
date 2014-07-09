@@ -1,7 +1,17 @@
 erlang-lz4
 ==========
 
+[![Build Status](https://secure.travis-ci.org/szktty/erlang-lz4.png?branch=develop)](http://travis-ci.org/szktty/erlang-lz4)
+
 LZ4 bindings for Erlang
+
+This library uses source code of LZ4 from https://github.com/Cyan4973/lz4.
+
+
+LZ4 implementation version
+--------------------------
+
+https://github.com/Cyan4973/lz4/releases/tag/r119
 
 
 Licenses
