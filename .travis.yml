@@ -3,6 +3,7 @@ notifications:
   disabled: true
 branches:
   only:
+    - master
     - develop
     - 0.1.0
     - 0.1.1
