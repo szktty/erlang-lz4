@@ -75,8 +75,8 @@ nif_uncompress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
   enif_alloc_binary((size_t)res_size, &res_bin);
 
-  if (LZ4_uncompress((char *)src_bin.data, (char *)res_bin.data,
-        res_bin.size) >= 0) {
+  if (LZ4_decompress_safe((char *)src_bin.data, (char *)res_bin.data,
+        src_bin.size, res_bin.size) >= 0) {
     ret_term = enif_make_tuple2(env, atom_ok,
         enif_make_binary(env, &res_bin));
     enif_release_binary(&res_bin);
