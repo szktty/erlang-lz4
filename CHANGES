@@ -1,3 +1,8 @@
+0.2.2 (2014/7/18)
+=================
+
+- NIF: replaces obsolute function LZ4_uncompress() with LZ4_decompress_safe()
+
 0.2.1 (2014/7/9)
 =================
 
