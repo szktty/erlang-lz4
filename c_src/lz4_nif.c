@@ -75,16 +75,22 @@ nif_uncompress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
   enif_alloc_binary((size_t)res_size, &res_bin);
 
-  if (LZ4_decompress_safe((char *)src_bin.data, (char *)res_bin.data,
-        src_bin.size, res_bin.size) >= 0) {
+  int ret_size = LZ4_decompress_safe((char *)src_bin.data,
+      (char *)res_bin.data, src_bin.size, res_bin.size);
+  if (ret_size >= 0) {
+    if (ret_size != res_bin.size) {
+      if (!enif_realloc_binary(&res_bin, ret_size))
+        goto error;
+    }
     ret_term = enif_make_tuple2(env, atom_ok,
         enif_make_binary(env, &res_bin));
     enif_release_binary(&res_bin);
     return ret_term;
-  } else {
-    enif_release_binary(&res_bin);
-    return enif_make_tuple2(env, atom_error, atom_uncompress_failed);
   }
+
+error:
+  enif_release_binary(&res_bin);
+  return enif_make_tuple2(env, atom_error, atom_uncompress_failed);
 }
 
 static int on_load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
