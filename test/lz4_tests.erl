@@ -22,5 +22,26 @@ pack_test() ->
     Raw = test_data(),
     {ok, Pack} = lz4:pack(Raw),
     {ok, Unpack} = lz4:unpack(Pack),
+    <<Size:32/little, _/binary>> = Pack,
+    ?assertEqual(byte_size(Raw), Size),
     ?assertEqual(Raw, Unpack).
 
+zero_compress_test() ->
+    Raw = <<>>,
+    {ok, Comp} = lz4:compress(Raw),
+    {ok, Uncomp} = lz4:uncompress(Comp, byte_size(Raw)),
+    ?assertEqual(Raw, Uncomp).
+
+zero_high_compress_test() ->
+    Raw = <<>>,
+    {ok, Comp} = lz4:compress(Raw, [high]),
+    {ok, Uncomp} = lz4:uncompress(Comp, byte_size(Raw)),
+    ?assertEqual(Raw, Uncomp).
+
+zero_pack_test() ->
+    Raw = <<>>,
+    {ok, Pack} = lz4:pack(Raw),
+    {ok, Unpack} = lz4:unpack(Pack),
+    <<Size:32/little, _/binary>> = Pack,
+    ?assertEqual(byte_size(Raw), Size),
+    ?assertEqual(Raw, Unpack).
