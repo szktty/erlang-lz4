@@ -12,13 +12,12 @@ defmodule Lz4.Mixfile do
   def application, do: []
 
   defp description do
-    "LZ4 bindings for Erlang" <>
-    "This library uses source code of LZ4 from https://github.com/Cyan4973/lz4."
+    "LZ4 bindings for Erlang"
   end
 
   defp package do
     [files: ["c_src", "src", "test", "README.md", "CHANGES", "Makefile", "rebar", "rebar.config"],
-     contributors: ["SUZUKI Tetsuya", "Lei Ting"],
+     contributors: ["SUZUKI Tetsuya"],
      licenses: ["ISC"],
      links: %{"GitHub" => "https://github.com/szktty/erlang-lz4.git"}]
   end
