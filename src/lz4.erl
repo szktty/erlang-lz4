@@ -28,7 +28,7 @@ init() ->
                   Path ->
                       Path
               end,
-    erlang:load_nif(filename:join(PrivDir, lz4_nif), 0).
+    erlang:load_nif(filename:join(PrivDir, lz4), 0).
 
 %% @doc Equals `compress(Binary, [])'.
 %% @see compress/2
