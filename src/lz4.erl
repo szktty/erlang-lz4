@@ -3,6 +3,7 @@
 -export([compress/1, compress/2, uncompress/2,
     pack/1, pack/2, unpack/1]).
 
+-compile(no_native).
 -on_load(init/0).
 
 -type option() :: high.
