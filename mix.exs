@@ -5,11 +5,19 @@ defmodule Lz4.Mixfile do
     [app: :lz4,
      version: "0.2.4",
      elixir: ">= 1.0.3",
+     compilers: [:erlang, :elixir], 
+     deps: deps, 
      description: description,
      package: package]
   end
 
   def application, do: []
+
+  def deps do 
+    [
+      {:ex_doc, ">= 0.0.0", only: :dev},
+    ]
+  end
 
   defp description do
     "LZ4 bindings for Erlang"
