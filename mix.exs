@@ -26,7 +26,7 @@ defmodule Lz4.Mixfile do
   defp package do
     [files: ["c_src/Makefile", "c_src/*.c", "c_src/*.h", "src", "test", "README.md", "CHANGES", "rebar.config"],
      maintainers: ["SUZUKI Tetsuya"], 
-     licenses: ["ISC"],
+     licenses: ["Apache License 2.0", "BSD 2-Clause"],
      links: %{"GitHub" => "https://github.com/szktty/erlang-lz4.git"}]
   end
 end
