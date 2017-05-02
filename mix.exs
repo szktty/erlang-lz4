@@ -3,7 +3,7 @@ defmodule Lz4.Mixfile do
 
   def project do
     [app: :lz4,
-     version: "0.2.4",
+     version: "0.2.4-a",
      elixir: ">= 1.0.3",
      compilers: [:erlang, :elixir], 
      deps: deps, 
