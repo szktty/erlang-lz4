@@ -1,0 +1,20 @@
+%% -*- erlang -*-
+
+IsWindows = case os:type() of {win32, _} -> true; {_, _} -> false end,
+
+MaybeSwitchToDll = fun(File) ->
+                        case IsWindows of
+                            false ->
+                                File;
+                            true ->
+                                case filename:extension(File) of
+                                    ".so"  -> filename:rootname(File, ".so") ++ ".dll";
+                                    []     -> File ++ ".exe";
+                                    _Other -> File
+                                end
+                            end
+                    end,
+
+{artifacts, Artifacts0} = lists:keyfind(artifacts, 1, CONFIG),
+Artifacts1 = [MaybeSwitchToDll(F) || F <- Artifacts0],
+lists:keyreplace(artifacts, 1, CONFIG, {artifacts, Artifacts1}).
