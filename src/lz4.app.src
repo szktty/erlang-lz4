@@ -1,6 +1,6 @@
 {application, lz4,
  [
-  {description, ""},
+  {description, "LZ4 bindings for Erlang"},
   {vsn, "0.2.2"},
   {registered, []},
   {applications, [
